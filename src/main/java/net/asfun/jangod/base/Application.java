@@ -32,18 +32,23 @@ public class Application {
 	boolean isMacroOn = true;
 	
 	public Application() {
-		config = Configuration.getDefault().clone();
+		this(null);
+	}
+
+	public Application(String configFile) {
+		if (configFile == null)
+			config = Configuration.getDefault().clone();
+		else
+			config = ConfigInitializer.getConfig(configFile);
 		String ima = config.getProperty("isMacroOn", Constants.STR_TRUE);
 		try {
 			isMacroOn = Boolean.parseBoolean(ima);
 		} catch (Exception e) {
-			JangodLogger.warning("Config wrong boolean for isMacroOn(use default) >>> " + ima);
-		};
+			JangodLogger
+					.warning("Config wrong boolean for isMacroOn(use default) >>> "
+							+ ima);
+		}
 		parseResultManager = new ParseResultManager(this);
-	}
-	
-	public Application(String configFile) {
-		config = ConfigInitializer.getConfig(configFile);
 	}
 	
 	public Map<String, Object> getGlobalBindings() {
