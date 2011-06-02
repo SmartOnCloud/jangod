@@ -12,43 +12,42 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.tree;
 
 import java.util.Iterator;
 
-public class TreeIterator implements Iterator<Node>{
+public class TreeIterator implements Iterator<Node> {
 
-	Node root;
-	Node cursor;
-	
-	public TreeIterator(Node rootNode) {
-		if ( rootNode == null ) {
-			root = cursor = null;
-		} else {
-			root = rootNode;
-			cursor = rootNode.children.getFirst();
-		}
-	}
-	
-	@Override
-	public boolean hasNext() {
-		return cursor != null;
-	}
+    Node root;
+    Node cursor;
 
-	@Override
-	public Node next() {
-		Node res = cursor;
-		if ( cursor != null ) {
-			cursor = cursor.treeNext();
-		}
-		return res;
+    public TreeIterator(Node rootNode) {
+	if (rootNode == null) {
+	    root = cursor = null;
+	} else {
+	    root = rootNode;
+	    cursor = rootNode.children.getFirst();
 	}
+    }
 
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
+    @Override
+    public boolean hasNext() {
+	return cursor != null;
+    }
+
+    @Override
+    public Node next() {
+	Node res = cursor;
+	if (cursor != null) {
+	    cursor = cursor.treeNext();
 	}
+	return res;
+    }
 
-	
+    @Override
+    public void remove() {
+	throw new UnsupportedOperationException();
+    }
+
 }

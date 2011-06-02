@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.base;
 
 import static net.asfun.jangod.util.logging.JangodLogger;
@@ -24,51 +24,63 @@ import java.util.Map;
 import net.asfun.jangod.tree.Node;
 import net.asfun.jangod.tree.ParseResultManager;
 
+import org.springframework.context.MessageSource;
+
 public class Application {
 
-	Map<String, Object> globalBindings = new Hashtable<String, Object>(5);
-	Configuration config;
-	ParseResultManager parseResultManager;
-	boolean isMacroOn = true;
-	
-	public Application() {
-		this(null);
-	}
+    Map<String, Object> globalBindings = new Hashtable<String, Object>(5);
+    Configuration config;
+    ParseResultManager parseResultManager;
+    boolean isMacroOn = true;
+    private MessageSource messageSource;
 
-	public Application(String configFile) {
-		if (configFile == null)
-			config = Configuration.getDefault().clone();
-		else
-			config = ConfigInitializer.getConfig(configFile);
-		String ima = config.getProperty("isMacroOn", Constants.STR_TRUE);
-		try {
-			isMacroOn = Boolean.parseBoolean(ima);
-		} catch (Exception e) {
-			JangodLogger
-					.warning("Config wrong boolean for isMacroOn(use default) >>> "
-							+ ima);
-		}
-		parseResultManager = new ParseResultManager(this);
-	}
-	
-	public Map<String, Object> getGlobalBindings() {
-		return globalBindings;
-	}
+    public Application() {
+	this(null);
+    }
 
-	public void setGlobalBindings(Map<String, Object> globalBindings) {
-		this.globalBindings = globalBindings;
+    public Application(String configFile) {
+	if (configFile == null)
+	    config = Configuration.getDefault().clone();
+	else
+	    config = ConfigInitializer.getConfig(configFile);
+	String ima = config.getProperty("isMacroOn", Constants.STR_TRUE);
+	try {
+	    isMacroOn = Boolean.parseBoolean(ima);
+	} catch (Exception e) {
+	    JangodLogger
+		    .warning("Config wrong boolean for isMacroOn(use default) >>> "
+			    + ima);
 	}
-	
-	public Configuration getConfiguration() {
-		return config;
-	}
+	parseResultManager = new ParseResultManager(this);
+    }
 
-	public Node getParseResult(String fullName, String encoding) throws IOException {
-		return parseResultManager.getParseResult(fullName, encoding);
-	}
+    public Map<String, Object> getGlobalBindings() {
+	return globalBindings;
+    }
 
-	public boolean isMacroOn() {
-		return isMacroOn;
-	}
-	
+    public void setGlobalBindings(Map<String, Object> globalBindings) {
+	this.globalBindings = globalBindings;
+    }
+
+    public Configuration getConfiguration() {
+	return config;
+    }
+
+    public Node getParseResult(String fullName, String encoding)
+	    throws IOException {
+	return parseResultManager.getParseResult(fullName, encoding);
+    }
+
+    public boolean isMacroOn() {
+	return isMacroOn;
+    }
+
+    public void setMessageSource(MessageSource messageSource) {
+	this.messageSource = messageSource;
+    }
+
+    public MessageSource getMessageSource() {
+	return messageSource;
+    }
+
 }

@@ -12,27 +12,28 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.filter;
 
 import net.asfun.jangod.interpret.InterpretException;
 import net.asfun.jangod.interpret.JangodInterpreter;
 import net.asfun.jangod.lib.Filter;
 
-public class UpperFilter implements Filter{
+public class UpperFilter implements Filter {
 
-	@Override
-	public Object filter(Object object, JangodInterpreter interpreter, String... arg) throws InterpretException {
-		if ( object instanceof String ) {
-			String value = object.toString();
-			return value.toUpperCase();
-		}
-		return object;
+    @Override
+    public Object filter(Object object, JangodInterpreter interpreter,
+	    String... arg) throws InterpretException {
+	if (object instanceof String) {
+	    String value = object.toString();
+	    return value.toUpperCase();
 	}
+	return object;
+    }
 
-	@Override
-	public String getName() {
-		return "upper";
-	}
+    @Override
+    public String getName() {
+	return "upper";
+    }
 
 }

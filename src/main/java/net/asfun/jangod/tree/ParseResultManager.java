@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.tree;
 
 import static net.asfun.jangod.util.logging.JangodLogger;
@@ -28,43 +28,48 @@ import net.asfun.jangod.parse.TokenParser;
 
 public class ParseResultManager {
 
-	StatelessObjectStorage<String, Node> cache;
-	Application application;
-	static final String join = "@";
-	
-	public ParseResultManager (Application application) {
-		this.application = application;
-		init(application.getConfiguration());
+    StatelessObjectStorage<String, Node> cache;
+    Application application;
+    static final String join = "@";
+
+    public ParseResultManager(Application application) {
+	this.application = application;
+	init(application.getConfiguration());
+    }
+
+    @SuppressWarnings("unchecked")
+    private void init(Configuration config) {
+	String storeClass = config.getProperty("parse.cache");
+	if (storeClass == null) {
+	    cache = new SynchronousStorage<String, Node>();
+	} else {
+	    try {
+		cache = (StatelessObjectStorage<String, Node>) Class.forName(
+			storeClass).newInstance();
+	    } catch (Exception e) {
+		cache = new SynchronousStorage<String, Node>();
+		JangodLogger
+			.warning("Can't instance parser cacher(use default) >>> "
+				+ storeClass);
+	    }
 	}
-	
-	@SuppressWarnings("unchecked")
-	private void init(Configuration config) {
-		String storeClass = config.getProperty("parse.cache");
-		if ( storeClass == null ) {
-			cache = new SynchronousStorage<String, Node>();
-		} else {
-			try {
-				cache = (StatelessObjectStorage<String, Node>) Class.forName(storeClass).newInstance();
-			} catch (Exception e) {
-				cache = new SynchronousStorage<String, Node>();
-				JangodLogger.warning("Can't instance parser cacher(use default) >>> " + storeClass);
-			}
-		}
+    }
+
+    public Node getParseResult(String file, String encoding) throws IOException {
+	String key = file + join + encoding;
+	Node root = cache.get(key);
+	if (root == null) {
+	    root = TreeParser.parser(new TokenParser(ResourceManager
+		    .getResource(file, encoding)));
+	    root = new TreeRebuilder(application, file).refactor(root);
+	    cache.put(key, root);
 	}
-	
-	public Node getParseResult(String file, String encoding) throws IOException {
-		String key = file + join + encoding;
-		Node root = cache.get(key);
-		if ( root == null ) {
-			root = TreeParser.parser(new TokenParser(ResourceManager.getResource(file, encoding)));
-			root = new TreeRebuilder(application, file).refactor(root);
-			cache.put(key, root);
-		}
-//		TreeIterator nit = new TreeIterator(root);
-//		while (nit.hasNext()) {
-//			System.out.println(nit.next());
-//		}
-//		System.out.println("-------------------------------------------" + file);
-		return root;
-	}
+	// TreeIterator nit = new TreeIterator(root);
+	// while (nit.hasNext()) {
+	// System.out.println(nit.next());
+	// }
+	// System.out.println("-------------------------------------------" +
+	// file);
+	return root;
+    }
 }

@@ -12,18 +12,18 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.parse;
 
 public class ParseException extends Exception {
 
-	private static final long serialVersionUID = -2348219592540572520L;
+    private static final long serialVersionUID = -2348219592540572520L;
 
-	public ParseException(String msg) {
-		super(msg);
-	}
+    public ParseException(String msg) {
+	super(msg);
+    }
 
-	public ParseException(String msg, Throwable e) {
-		super(msg, e);
-	}
+    public ParseException(String msg, Throwable e) {
+	super(msg, e);
+    }
 }

@@ -12,15 +12,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package org.springframework.web.servlet.view.jangod;
 
 import net.asfun.jangod.template.TemplateEngine;
 
-public interface JangodConfig{
+public interface JangodConfig {
 
-	public boolean isUseTheme();
-	public void setRoot(String root);
-	public TemplateEngine getEngine();
-	
+    public boolean isUseTheme();
+
+    public void setRoot(String root);
+
+    public TemplateEngine getEngine();
+
 }

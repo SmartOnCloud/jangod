@@ -12,10 +12,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package org.springframework.web.servlet.view.jangod;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,29 +26,31 @@ import org.springframework.web.servlet.ThemeResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractTemplateView;
 
-public class JangodView extends AbstractTemplateView{
-	
-	protected JangodConfig jangodConfig;
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void renderMergedTemplateModel(Map model, HttpServletRequest req,
-			HttpServletResponse resp) throws Exception {
-		if ( ! jangodConfig.isUseTheme() ) {
-			jangodConfig.getEngine().process(getUrl(), model, resp.getWriter());
-			return;
-		} else {
-			ThemeResolver themeResolver = RequestContextUtils.getThemeResolver(req);
-			String theme = themeResolver.resolveThemeName(req);
-			if ( logger.isDebugEnabled() ) {
-				logger.debug("Current theme is " + theme);
-			}
-			jangodConfig.getEngine().process( theme + File.separator + getUrl(),
-					model, resp.getWriter());
-		} 
+public class JangodView extends AbstractTemplateView {
+
+    protected JangodConfig jangodConfig;
+
+    @Override
+    protected void renderMergedTemplateModel(Map<String, Object> model,
+	    HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	String templateFile;
+	if (!jangodConfig.isUseTheme()) {
+	    templateFile = getUrl();
+	} else {
+	    ThemeResolver themeResolver = RequestContextUtils
+		    .getThemeResolver(req);
+	    String theme = themeResolver.resolveThemeName(req);
+	    if (logger.isDebugEnabled()) {
+		logger.debug("Current theme is " + theme);
+	    }
+	    templateFile = theme + File.separator + getUrl();
 	}
-	
-	public void setJangodConfig(JangodConfig jangodConfig) {
-		this.jangodConfig = jangodConfig;
-	}
+	Locale locale = RequestContextUtils.getLocale(req);
+	jangodConfig.getEngine().process(templateFile, model, resp.getWriter(),
+		locale);
+    }
+
+    public void setJangodConfig(JangodConfig jangodConfig) {
+	this.jangodConfig = jangodConfig;
+    }
 }

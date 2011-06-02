@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.filter;
 
 import net.asfun.jangod.interpret.InterpretException;
@@ -22,21 +22,23 @@ import net.asfun.jangod.util.ObjectTruthValue;
 
 public class DefaultFilter implements Filter {
 
-	@Override
-	public Object filter(Object object, JangodInterpreter interpreter, String... arg) throws InterpretException {
-		if ( ObjectTruthValue.evaluate(object) ) {
-			return object;
-		} else {
-			if ( arg.length != 1) {
-				throw new InterpretException("filter default expects 1 arg >>> " + arg.length);
-			}
-			return interpreter.resolveObject(arg[0]);
-		}
+    @Override
+    public Object filter(Object object, JangodInterpreter interpreter,
+	    String... arg) throws InterpretException {
+	if (ObjectTruthValue.evaluate(object)) {
+	    return object;
+	} else {
+	    if (arg.length != 1) {
+		throw new InterpretException(
+			"filter default expects 1 arg >>> " + arg.length);
+	    }
+	    return interpreter.resolveObject(arg[0]);
 	}
+    }
 
-	@Override
-	public String getName() {
-		return "default";
-	}
+    @Override
+    public String getName() {
+	return "default";
+    }
 
 }

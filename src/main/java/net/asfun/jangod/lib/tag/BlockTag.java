@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.tag;
 
 import java.util.ArrayList;
@@ -28,73 +28,83 @@ import net.asfun.jangod.util.HelperStringTokenizer;
 
 /**
  * {% block name %}
- * @author anysome
- * TODO EXTENDS NESTED
+ * 
+ * @author anysome TODO EXTENDS NESTED
  */
 
-public class BlockTag implements Tag{
-	
-	final String BLOCKNAMES = "'BLK\"NAMES";
-	final String TAGNAME = "block";
-	final String ENDTAGNAME = "endblock";
+public class BlockTag implements Tag {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public String interpreter(NodeList carries, String helpers, JangodInterpreter interpreter)
-			throws InterpretException {
-		String[] helper = new HelperStringTokenizer(helpers).allTokens();
-		if( helper.length != 1) {
-			throw new InterpretException("Tag 'block' expects 1 helper >>> " + helper.length);
-		}
-		String blockName = interpreter.resolveString(helper[0]);
-		//check block name is unique
-		List<String> blockNames = (List<String>) interpreter.fetchRuntimeScope(BLOCKNAMES ,1);
-		if ( blockNames == null ) {
-			blockNames = new ArrayList<String>();
-		}
-		if ( blockNames.contains(blockName) ) {
-			throw new InterpretException("Can't redefine the block with name >>> " + blockName);
-		} else {
-			blockNames.add(blockName);
-			interpreter.assignRuntimeScope(BLOCKNAMES, blockNames, 1);
-		}
-		Object isChild = interpreter.fetchRuntimeScope(JangodInterpreter.CHILD_FLAG, 1);
-		if ( isChild != null ) {
-			ListOrderedMap blockList = (ListOrderedMap) interpreter.fetchRuntimeScope(JangodInterpreter.BLOCK_LIST, 1);
-			//check block was defined in parent
-			if ( ! blockList.containsKey(blockName) ) {
-				throw new InterpretException("Dosen't define block in extends parent with name >>> " + blockName);
-			}
-			//cover parent block content with child's.
-			blockList.put(blockName, getBlockContent(carries, interpreter));
-			return "";
-		}
-		Object isParent = interpreter.fetchRuntimeScope(JangodInterpreter.PARENT_FLAG, 1);
-		if ( isParent != null) {
-			//save block content to engine, and return identify
-			ListOrderedMap blockList = (ListOrderedMap) interpreter.fetchRuntimeScope(JangodInterpreter.BLOCK_LIST, 1);
-			blockList.put(blockName, getBlockContent(carries, interpreter));
-			return JangodInterpreter.SEMI_BLOCK + blockName;
-		}
-		return getBlockContent(carries, interpreter);
-	}
-	
-	private String getBlockContent(NodeList carries, JangodInterpreter interpreter) throws InterpretException {
-		StringBuffer sb = new StringBuffer();
-		for(Node node : carries) {
-			sb.append(node.render(interpreter));
-		}
-		return sb.toString();
-	}
+    final String BLOCKNAMES = "'BLK\"NAMES";
+    final String TAGNAME = "block";
+    final String ENDTAGNAME = "endblock";
 
-	@Override
-	public String getEndTagName() {
-		return ENDTAGNAME;
+    @SuppressWarnings("unchecked")
+    @Override
+    public String interpreter(NodeList carries, String helpers,
+	    JangodInterpreter interpreter) throws InterpretException {
+	String[] helper = new HelperStringTokenizer(helpers).allTokens();
+	if (helper.length != 1) {
+	    throw new InterpretException("Tag 'block' expects 1 helper >>> "
+		    + helper.length);
 	}
+	String blockName = interpreter.resolveString(helper[0]);
+	// check block name is unique
+	List<String> blockNames = (List<String>) interpreter.fetchRuntimeScope(
+		BLOCKNAMES, 1);
+	if (blockNames == null) {
+	    blockNames = new ArrayList<String>();
+	}
+	if (blockNames.contains(blockName)) {
+	    throw new InterpretException(
+		    "Can't redefine the block with name >>> " + blockName);
+	} else {
+	    blockNames.add(blockName);
+	    interpreter.assignRuntimeScope(BLOCKNAMES, blockNames, 1);
+	}
+	Object isChild = interpreter.fetchRuntimeScope(
+		JangodInterpreter.CHILD_FLAG, 1);
+	if (isChild != null) {
+	    ListOrderedMap blockList = (ListOrderedMap) interpreter
+		    .fetchRuntimeScope(JangodInterpreter.BLOCK_LIST, 1);
+	    // check block was defined in parent
+	    if (!blockList.containsKey(blockName)) {
+		throw new InterpretException(
+			"Dosen't define block in extends parent with name >>> "
+				+ blockName);
+	    }
+	    // cover parent block content with child's.
+	    blockList.put(blockName, getBlockContent(carries, interpreter));
+	    return "";
+	}
+	Object isParent = interpreter.fetchRuntimeScope(
+		JangodInterpreter.PARENT_FLAG, 1);
+	if (isParent != null) {
+	    // save block content to engine, and return identify
+	    ListOrderedMap blockList = (ListOrderedMap) interpreter
+		    .fetchRuntimeScope(JangodInterpreter.BLOCK_LIST, 1);
+	    blockList.put(blockName, getBlockContent(carries, interpreter));
+	    return JangodInterpreter.SEMI_BLOCK + blockName;
+	}
+	return getBlockContent(carries, interpreter);
+    }
 
-	@Override
-	public String getName() {
-		return TAGNAME;
+    private String getBlockContent(NodeList carries,
+	    JangodInterpreter interpreter) throws InterpretException {
+	StringBuffer sb = new StringBuffer();
+	for (Node node : carries) {
+	    sb.append(node.render(interpreter));
 	}
+	return sb.toString();
+    }
+
+    @Override
+    public String getEndTagName() {
+	return ENDTAGNAME;
+    }
+
+    @Override
+    public String getName() {
+	return TAGNAME;
+    }
 
 }

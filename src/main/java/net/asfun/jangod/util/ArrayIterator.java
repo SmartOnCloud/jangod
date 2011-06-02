@@ -12,41 +12,41 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.util;
 
 import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayIterator implements Iterator<Object>{
-	
-	private Object array;
-	private int length;
-	private int cursor;
+public class ArrayIterator implements Iterator<Object> {
 
-	public ArrayIterator(Object obj) {
-		array = obj;
-		length = Array.getLength(obj);
-		cursor = 0;
-	}
+    private Object array;
+    private int length;
+    private int cursor;
 
-	@Override
-	public boolean hasNext() {
-		return cursor < length;
-	}
+    public ArrayIterator(Object obj) {
+	array = obj;
+	length = Array.getLength(obj);
+	cursor = 0;
+    }
 
-	@Override
-	public Object next() {
-		if ( cursor >= length ) {
-			throw new NoSuchElementException();
-		}
-		return Array.get(array, cursor++);
-	}
+    @Override
+    public boolean hasNext() {
+	return cursor < length;
+    }
 
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
+    @Override
+    public Object next() {
+	if (cursor >= length) {
+	    throw new NoSuchElementException();
 	}
+	return Array.get(array, cursor++);
+    }
+
+    @Override
+    public void remove() {
+	throw new UnsupportedOperationException();
+    }
 
 }

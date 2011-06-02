@@ -12,18 +12,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.cache;
 
-
-public interface StatelessObjectStorage<K,V> {
+public interface StatelessObjectStorage<K, V> {
 
     public V get(K key);
-    
+
     public void put(K key, V value);
-    
+
     public void remove(K key);
-    
+
     public void clear();
-    
+
 }

@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.filter;
 
 import net.asfun.jangod.base.Constants;
@@ -21,22 +21,23 @@ import net.asfun.jangod.interpret.JangodInterpreter;
 import net.asfun.jangod.lib.Filter;
 import net.asfun.jangod.util.ObjectValue;
 
-public class CutFilter implements Filter{
+public class CutFilter implements Filter {
 
-	@Override
-	public Object filter(Object object, JangodInterpreter interpreter, String... arg)
-			throws InterpretException {
-		if ( arg.length != 1 ) {
-			throw new InterpretException("filter cut expects 1 arg >>> " + arg.length);
-		}
-		String cutee = interpreter.resolveString(arg[0]);
-		String origin = ObjectValue.printable(object);
-		return origin.replace(cutee, Constants.STR_BLANK);
+    @Override
+    public Object filter(Object object, JangodInterpreter interpreter,
+	    String... arg) throws InterpretException {
+	if (arg.length != 1) {
+	    throw new InterpretException("filter cut expects 1 arg >>> "
+		    + arg.length);
 	}
+	String cutee = interpreter.resolveString(arg[0]);
+	String origin = ObjectValue.printable(object);
+	return origin.replace(cutee, Constants.STR_BLANK);
+    }
 
-	@Override
-	public String getName() {
-		return "cut";
-	}
+    @Override
+    public String getName() {
+	return "cut";
+    }
 
 }

@@ -12,9 +12,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.util;
-
 
 import static org.junit.Assert.*;
 
@@ -23,20 +22,20 @@ import org.junit.Test;
 
 public class VariableTest {
 
-	private Object obj;
-	private Variable var;
-	private Object res;
-	
-	@Before
-	public void setUp() throws Exception {
-		obj = new java.util.Date(2011,03, 9);
-	}
-	
-	@Test
-	public void test1() {
-		var = new Variable("now.Date");
-		res = var.resolve(obj);
-		assertEquals(9,res);
-	}
+    private Object obj;
+    private Variable var;
+    private Object res;
+
+    @Before
+    public void setUp() throws Exception {
+	obj = new java.util.Date(2011, 03, 9);
+    }
+
+    @Test
+    public void test1() {
+	var = new Variable("now.Date");
+	res = var.resolve(obj);
+	assertEquals(9, res);
+    }
 
 }

@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.filter;
 
 import net.asfun.jangod.interpret.InterpretException;
@@ -20,28 +20,28 @@ import net.asfun.jangod.interpret.JangodInterpreter;
 import net.asfun.jangod.lib.Filter;
 import net.asfun.jangod.util.ObjectTruthValue;
 
-public class AndFilter implements Filter{
+public class AndFilter implements Filter {
 
-	@Override
-	public Object filter(Object object, JangodInterpreter interpreter, String... arg)
-			throws InterpretException {
-		if ( ! ObjectTruthValue.evaluate(object) ) {
-			return false;
-		} else {
-			Object test;
-			for(String var : arg) {
-				test = interpreter.retraceVariable(var);
-				if ( ! ObjectTruthValue.evaluate(test) ) {
-					return false;
-				}
-			}
-			return true;
+    @Override
+    public Object filter(Object object, JangodInterpreter interpreter,
+	    String... arg) throws InterpretException {
+	if (!ObjectTruthValue.evaluate(object)) {
+	    return false;
+	} else {
+	    Object test;
+	    for (String var : arg) {
+		test = interpreter.retraceVariable(var);
+		if (!ObjectTruthValue.evaluate(test)) {
+		    return false;
 		}
+	    }
+	    return true;
 	}
+    }
 
-	@Override
-	public String getName() {
-		return "and";
-	}
+    @Override
+    public String getName() {
+	return "and";
+    }
 
 }

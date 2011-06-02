@@ -12,43 +12,44 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.tree;
 
 import net.asfun.jangod.interpret.InterpretException;
 import net.asfun.jangod.interpret.JangodInterpreter;
 import net.asfun.jangod.parse.FixedToken;
 
-public class TextNode extends Node{
+public class TextNode extends Node {
 
-	private static final long serialVersionUID = 8488738480534354216L;
-	private FixedToken master;
-	static final String name = "Text_Node";
+    private static final long serialVersionUID = 8488738480534354216L;
+    private FixedToken master;
+    static final String name = "Text_Node";
 
-	public TextNode(FixedToken token) {
-		super();
-		master = token;
-	}
+    public TextNode(FixedToken token) {
+	super();
+	master = token;
+    }
 
-	@Override
-	public String render(JangodInterpreter interpreter) throws InterpretException {
-		return master.output();
-	}
+    @Override
+    public String render(JangodInterpreter interpreter)
+	    throws InterpretException {
+	return master.output();
+    }
 
-	@Override
-	public String toString() {
-		return master.toString();
-	}
-	
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
-	public Node clone() {
-		Node clone = new TextNode(master);
-		clone.children = this.children.clone(clone);
-		return clone;
-	}
+    @Override
+    public String toString() {
+	return master.toString();
+    }
+
+    @Override
+    public String getName() {
+	return name;
+    }
+
+    @Override
+    public Node clone() {
+	Node clone = new TextNode(master);
+	clone.children = this.children.clone(clone);
+	return clone;
+    }
 }

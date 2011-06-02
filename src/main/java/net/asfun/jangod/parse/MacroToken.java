@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.parse;
 
 import static net.asfun.jangod.parse.ParserConstants.*;
@@ -20,53 +20,54 @@ import net.asfun.jangod.base.Constants;
 
 /**
  * Do something hard to be done by TagToken
+ * 
  * @author anysome
- *
+ * 
  */
 public class MacroToken extends Token {
-	
-	private static final long serialVersionUID = -3710981054298651807L;
-	
-	private String macroName;
-	private String helpers;
 
-	public MacroToken(String image) throws ParseException{
-		super(image);
-	}
-	
-	@Override
-	public int getType() {
-		return TOKEN_MACRO;
-	}
+    private static final long serialVersionUID = -3710981054298651807L;
 
-	@Override
-	protected void parse() throws ParseException{
-		content = image.substring(2, image.length()-2).trim().replaceFirst(SCPACE_STR, Constants.STR_SPACE);
-		int postBlank = content.indexOf(SP);
-		if ( postBlank > 0 ) {
-			macroName = content.substring(0, postBlank).toLowerCase();
-			helpers = content.substring(postBlank).trim();
-		}
-		else {
-			macroName = content;
-			helpers = Constants.STR_BLANK;
-		}	
-	}
+    private String macroName;
+    private String helpers;
 
-	public String getMacroName() {
-		return macroName;
+    public MacroToken(String image) throws ParseException {
+	super(image);
+    }
+
+    @Override
+    public int getType() {
+	return TOKEN_MACRO;
+    }
+
+    @Override
+    protected void parse() throws ParseException {
+	content = image.substring(2, image.length() - 2).trim()
+		.replaceFirst(SCPACE_STR, Constants.STR_SPACE);
+	int postBlank = content.indexOf(SP);
+	if (postBlank > 0) {
+	    macroName = content.substring(0, postBlank).toLowerCase();
+	    helpers = content.substring(postBlank).trim();
+	} else {
+	    macroName = content;
+	    helpers = Constants.STR_BLANK;
 	}
-	
-	public String getHelpers() {
-		return helpers;
+    }
+
+    public String getMacroName() {
+	return macroName;
+    }
+
+    public String getHelpers() {
+	return helpers;
+    }
+
+    @Override
+    public String toString() {
+	if (helpers.length() == 0) {
+	    return "{! " + macroName + " !}";
 	}
-	
-	@Override
-	public String toString() {
-		if ( helpers.length() == 0) {
-			return "{! " + macroName + " !}";
-		}
-		return "{! " + macroName + " " + helpers + " !}";
-	}
+	return "{! " + macroName + " " + helpers + " !}";
+    }
 
 }

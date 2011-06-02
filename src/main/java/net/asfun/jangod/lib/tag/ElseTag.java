@@ -12,9 +12,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.tag;
-
 
 import net.asfun.jangod.base.Constants;
 import net.asfun.jangod.interpret.InterpretException;
@@ -24,27 +23,28 @@ import net.asfun.jangod.tree.NodeList;
 
 /**
  * {% else %}
+ * 
  * @author anysome
- *
+ * 
  */
-public class ElseTag implements Tag{
+public class ElseTag implements Tag {
 
-	static final String ELSE = "else";
-	
-	@Override
-	public String interpreter(NodeList carries, String helpers, JangodInterpreter interpreter)
-			throws InterpretException {
-		return Constants.STR_BLANK;
-	}
+    static final String ELSE = "else";
 
-	@Override
-	public String getEndTagName() {
-		return null;
-	}
+    @Override
+    public String interpreter(NodeList carries, String helpers,
+	    JangodInterpreter interpreter) throws InterpretException {
+	return Constants.STR_BLANK;
+    }
 
-	@Override
-	public String getName() {
-		return ELSE;
-	}
+    @Override
+    public String getEndTagName() {
+	return null;
+    }
+
+    @Override
+    public String getName() {
+	return ELSE;
+    }
 
 }

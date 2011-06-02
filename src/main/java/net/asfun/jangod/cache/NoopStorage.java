@@ -12,30 +12,29 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.cache;
 
+public class NoopStorage<K, V> implements StatelessObjectStorage<K, V> {
 
-public class NoopStorage<K,V> implements StatelessObjectStorage<K, V> {
+    @Override
+    public void clear() {
 
-	@Override
-	public void clear() {
-		
-	}
+    }
 
-	@Override
-	public V get(K key) {
-		return null;
-	}
+    @Override
+    public V get(K key) {
+	return null;
+    }
 
-	@Override
-	public void put(K key, V value) {
-		
-	}
+    @Override
+    public void put(K key, V value) {
 
-	@Override
-	public void remove(K key) {
-		
-	}
+    }
+
+    @Override
+    public void remove(K key) {
+
+    }
 
 }

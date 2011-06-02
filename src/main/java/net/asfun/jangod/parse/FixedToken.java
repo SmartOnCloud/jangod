@@ -12,55 +12,53 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.parse;
 
 import static net.asfun.jangod.parse.ParserConstants.*;
 
-public class FixedToken extends Token{
-	
+public class FixedToken extends Token {
 
-	private static final long serialVersionUID = -5015884072204770458L;
-	
-	static final String toReplace = "\\{\\\\(\\\\*[\\{!#%])";
-	static final String replaceWith = "{$1";
+    private static final long serialVersionUID = -5015884072204770458L;
 
-	public FixedToken(String image) throws ParseException{
-		super(image);
-	}
-	
-	@Override
-	public int getType() {
-		return TOKEN_FIXED;
-	}
-	
-	/**
-	 * set n is an integer and > 0
-	 * change "{\[n]{" and "{\[n]!" and "{\[n]#" and "{\[n]%"
-	 * to     "{\[n-1]{"   or "{\[n-1]!"   or "{\[n-1]#"   or "{\[n-1]%"
-	 */
-	@Override
-	protected void parse() {
-		content = image.replaceAll(toReplace, replaceWith);
-	}
+    static final String toReplace = "\\{\\\\(\\\\*[\\{!#%])";
+    static final String replaceWith = "{$1";
 
-	public boolean isBlank() {
-		return content.trim().length()==0;
+    public FixedToken(String image) throws ParseException {
+	super(image);
+    }
+
+    @Override
+    public int getType() {
+	return TOKEN_FIXED;
+    }
+
+    /**
+     * set n is an integer and > 0 change "{\[n]{" and "{\[n]!" and "{\[n]#" and
+     * "{\[n]%" to "{\[n-1]{" or "{\[n-1]!" or "{\[n-1]#" or "{\[n-1]%"
+     */
+    @Override
+    protected void parse() {
+	content = image.replaceAll(toReplace, replaceWith);
+    }
+
+    public boolean isBlank() {
+	return content.trim().length() == 0;
+    }
+
+    public String trim() {
+	return content.trim();
+    }
+
+    public String output() {
+	return content;
+    }
+
+    @Override
+    public String toString() {
+	if (isBlank()) {
+	    return "{~ ~}";
 	}
-	
-	public String trim() {
-		return content.trim();
-	}
-	
-	public String output() {
-		return content;
-	}
-	
-	@Override
-	public String toString() {
-		if ( isBlank() ) {
-			return "{~ ~}";
-		}
-		return "{~ " + content +" ~}";
-	}
+	return "{~ " + content + " ~}";
+    }
 }

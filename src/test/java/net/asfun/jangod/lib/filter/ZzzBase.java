@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-**********************************************************************/
+ **********************************************************************/
 package net.asfun.jangod.lib.filter;
 
 import javax.script.ScriptContext;
@@ -25,16 +25,15 @@ import net.asfun.jangod.script.JangodContext;
 
 import org.junit.BeforeClass;
 
-
 public class ZzzBase {
 
-	protected static JangodInterpreter compiler;
-	protected Filter filter;
-	
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		SimpleBindings bindings = new SimpleBindings();
-		ScriptContext context = new JangodContext(bindings);
-		compiler = new JangodInterpreter((Context) context);
-	}
+    protected static JangodInterpreter compiler;
+    protected Filter filter;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+	SimpleBindings bindings = new SimpleBindings();
+	ScriptContext context = new JangodContext(bindings);
+	compiler = new JangodInterpreter((Context) context);
+    }
 }
