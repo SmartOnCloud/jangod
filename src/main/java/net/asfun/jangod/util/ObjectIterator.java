@@ -38,7 +38,7 @@ public class ObjectIterator {
 	}
 	// map
 	if (obj instanceof Map) {
-	    Collection<?> clt = ((Map<?, ?>) obj).values();
+	    Collection<?> clt = ((Map<?, ?>) obj).entrySet();
 	    return new ForLoop(clt.iterator(), clt.size());
 	}
 	// iterable,iterator

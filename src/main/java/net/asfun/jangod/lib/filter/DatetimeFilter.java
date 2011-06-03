@@ -46,6 +46,9 @@ public class DatetimeFilter implements Filter {
 		DateTimeFormatter forPattern = a;
 		JodaTimeContext jodaTimeContext = JodaTimeContextHolder
 			.getJodaTimeContext();
+		if (jodaTimeContext==null) {
+		    jodaTimeContext = new JodaTimeContext();
+		}
 		formatter = jodaTimeContext.getFormatter(forPattern);
 	    } else if (arg.length == 2) {
 		formatter = a.withChronology(ISOChronology

@@ -60,15 +60,14 @@ public class VariableChain {
 	    // method
 	    Method mth1 = null;
 	    try {
-		mth1 = clazz.getMethod(name);
+		mth1 = clazz.getDeclaredMethod(name);
 	    } catch (NoSuchMethodException e) {
 		String uname = upperFirst(name);
 		try {
-		    mth1 = clazz.getMethod(GET + uname);
-		    // mth1.setAccessible(array, flag)
+		    mth1 = clazz.getDeclaredMethod(GET + uname);
 		} catch (NoSuchMethodException e2) {
 		    try {
-			mth1 = clazz.getMethod(IS + uname);
+			mth1 = clazz.getDeclaredMethod(IS + uname);
 		    } catch (NoSuchMethodException e3) {
 			// nothing;
 		    }
@@ -78,6 +77,7 @@ public class VariableChain {
 	    }
 	    if (mth1 != null) {
 		try {
+		    ReflectionUtils.makeAccessible(mth1);
 		    return mth1.invoke(value);
 		} catch (Exception e) {
 		    JangodLogger.log(Level.SEVERE,
