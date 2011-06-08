@@ -55,7 +55,7 @@ public class AddFilter implements Filter {
 	    return num.longValue() + (Long) object;
 	}
 	if (object instanceof Short) {
-	    return 0 + num.shortValue() + (Short) object;
+	    return (short) (0 + num.shortValue() + (Short) object);
 	}
 	if (object instanceof Double) {
 	    return num.doubleValue() + (Double) object;
@@ -69,7 +69,7 @@ public class AddFilter implements Filter {
 		    .add(BigInteger.valueOf(num.longValue()));
 	}
 	if (object instanceof Byte) {
-	    return num.byteValue() + (Byte) object;
+	    return (byte)( num.byteValue() + (Byte) object);
 	}
 	if (object instanceof String) {
 	    try {

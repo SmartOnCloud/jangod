@@ -37,7 +37,7 @@ public class AbsFilter implements Filter {
 	    return Math.abs((Long) object);
 	}
 	if (object instanceof Short) {
-	    return Math.abs((Short) object);
+	    return (short) Math.abs((Short) object);
 	}
 	if (object instanceof Double) {
 	    return Math.abs((Double) object);
@@ -49,7 +49,7 @@ public class AbsFilter implements Filter {
 	    return ((BigInteger) object).abs();
 	}
 	if (object instanceof Byte) {
-	    return Math.abs((Byte) object);
+	    return (byte) Math.abs((Byte) object);
 	}
 	if (object instanceof String) {
 	    try {
