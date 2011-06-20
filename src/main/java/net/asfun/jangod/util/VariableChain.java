@@ -55,19 +55,20 @@ public class VariableChain {
 	Class<?> clazz = value.getClass();
 	try {
 	    Field field = clazz.getField(name);
+	    ReflectionUtils.makeAccessible(field);
 	    return field.get(value);
 	} catch (Exception e1) {
 	    // method
 	    Method mth1 = null;
 	    try {
-		mth1 = clazz.getDeclaredMethod(name);
+		mth1 = clazz.getMethod(name);
 	    } catch (NoSuchMethodException e) {
 		String uname = upperFirst(name);
 		try {
-		    mth1 = clazz.getDeclaredMethod(GET + uname);
+		    mth1 = clazz.getMethod(GET + uname);
 		} catch (NoSuchMethodException e2) {
 		    try {
-			mth1 = clazz.getDeclaredMethod(IS + uname);
+			mth1 = clazz.getMethod(IS + uname);
 		    } catch (NoSuchMethodException e3) {
 			// nothing;
 		    }
