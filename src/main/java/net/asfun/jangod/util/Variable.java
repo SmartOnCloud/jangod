@@ -15,33 +15,20 @@ limitations under the License.
  **********************************************************************/
 package net.asfun.jangod.util;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+
+import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 public class Variable {
 
-    static final String DOT = ".";
-    static final String DOT_REGX = "\\.";
-
     private String name;
-    private List<String> chainList;
 
     public Variable(String variable) {
-	split(variable);
-    }
-
-    private void split(String variable) {
-	if (!variable.contains(DOT)) {
-	    name = variable;
-	    chainList = null;
-	    return;
-	}
-
-	String[] parts = variable.split(DOT_REGX);
-	name = parts[0];
-	chainList = Arrays.asList(parts);
-	chainList = chainList.subList(1, chainList.size());
-
+	name = variable;
     }
 
     public String getName() {
@@ -49,9 +36,18 @@ public class Variable {
     }
 
     public Object resolve(Object value) {
-	if (chainList != null) {
-	    return new VariableChain(chainList, value).resolve();
-	} else {
+	ExpressionParser parser = new SpelExpressionParser();
+	try {
+	    String rootName = name;
+	    if (name.contains(".")) rootName = rootName.substring(0, name.indexOf("."));
+	    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+	    hashMap.put(rootName, value);
+	    StandardEvaluationContext context = new StandardEvaluationContext(
+		    hashMap);
+	    context.addPropertyAccessor(new ReflectivePropertyAccessor());
+	    context.addPropertyAccessor(new MapAccessor());
+	    return parser.parseExpression(name).getValue(context);
+	} catch (Exception e) {
 	    return value;
 	}
     }

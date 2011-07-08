@@ -18,6 +18,12 @@ package net.asfun.jangod.interpret;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
 import net.asfun.jangod.base.Constants;
 
 public class FloorBindings implements Cloneable {
@@ -52,7 +58,17 @@ public class FloorBindings implements Cloneable {
 
     public Object get(String key, int level) {
 	checkKey(key);
-	return getBindings(level).get(key);
+	ExpressionParser parser = new SpelExpressionParser();
+	Map<String, Object> bindings = getBindings(level);
+	try {
+	    StandardEvaluationContext context = new StandardEvaluationContext(bindings);
+	    context.addPropertyAccessor(new ReflectivePropertyAccessor());
+	    context.addPropertyAccessor(new MapAccessor());
+	    return parser.parseExpression(key).getValue(context);
+	} catch (Exception e) {
+	     // ignore, continue with original flow
+	}
+	return bindings.get(key);
     }
 
     public Object remove(Object key, int level) {

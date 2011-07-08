@@ -18,6 +18,12 @@ package net.asfun.jangod.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
 public class Context {
 
     public static final int SCOPE_GLOBAL = 1;
@@ -59,12 +65,16 @@ public class Context {
     }
 
     public Object getAttribute(String varName) {
-	if (sessionBindings.containsKey(varName)) {
-	    return sessionBindings.get(varName);
-	} else if (application.globalBindings.containsKey(varName)) {
-	    return application.globalBindings.get(varName);
+	ExpressionParser parser = new SpelExpressionParser();
+	try {
+	    StandardEvaluationContext context = new StandardEvaluationContext(
+		    sessionBindings);
+	    context.addPropertyAccessor(new ReflectivePropertyAccessor());
+	    context.addPropertyAccessor(new MapAccessor());
+	    return parser.parseExpression(varName).getValue(context);
+	} catch (Exception e) {
+	    return null;
 	}
-	return null;
     }
 
     public void setAttribute(String varName, Object value, int scope) {
