@@ -31,10 +31,11 @@ public class Context {
 
     protected Map<String, Object> sessionBindings;
     protected Application application;
+    private ExpressionParser parser = new SpelExpressionParser();
+    private StandardEvaluationContext context = new StandardEvaluationContext();
 
     public Context() {
-	application = new Application();
-	sessionBindings = new HashMap<String, Object>();
+	this(null);
     }
 
     public Context(Application application) {
@@ -43,6 +44,8 @@ public class Context {
 	}
 	this.application = application;
 	sessionBindings = new HashMap<String, Object>();
+	context.addPropertyAccessor(new ReflectivePropertyAccessor());
+	context.addPropertyAccessor(new MapAccessor());
     }
 
     public Application getApplication() {
@@ -65,12 +68,14 @@ public class Context {
     }
 
     public Object getAttribute(String varName) {
-	ExpressionParser parser = new SpelExpressionParser();
 	try {
-	    StandardEvaluationContext context = new StandardEvaluationContext(
-		    sessionBindings);
-	    context.addPropertyAccessor(new ReflectivePropertyAccessor());
-	    context.addPropertyAccessor(new MapAccessor());
+	    context.setRootObject(sessionBindings);
+	    return parser.parseExpression(varName).getValue(context);
+	} catch (Exception e) {
+	    // ignore. try global application global bindings
+	}
+	try {
+	    context.setRootObject(application.globalBindings);
 	    return parser.parseExpression(varName).getValue(context);
 	} catch (Exception e) {
 	    return null;
