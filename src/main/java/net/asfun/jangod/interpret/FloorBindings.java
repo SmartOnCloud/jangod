@@ -27,6 +27,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import net.asfun.jangod.base.Constants;
 
 public class FloorBindings implements Cloneable {
+    private static ExpressionParser parser = new SpelExpressionParser();
 
     private Map<Integer, Map<String, Object>> floor;
 
@@ -58,17 +59,16 @@ public class FloorBindings implements Cloneable {
 
     public Object get(String key, int level) {
 	checkKey(key);
-	ExpressionParser parser = new SpelExpressionParser();
 	Map<String, Object> bindings = getBindings(level);
 	try {
-	    StandardEvaluationContext context = new StandardEvaluationContext(bindings);
+	    StandardEvaluationContext context = new StandardEvaluationContext();
 	    context.addPropertyAccessor(new ReflectivePropertyAccessor());
 	    context.addPropertyAccessor(new MapAccessor());
+	    context.setRootObject(bindings);
 	    return parser.parseExpression(key).getValue(context);
 	} catch (Exception e) {
-	     // ignore, continue with original flow
+	    return bindings.get(key);
 	}
-	return bindings.get(key);
     }
 
     public Object remove(Object key, int level) {

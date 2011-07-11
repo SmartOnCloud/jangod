@@ -15,6 +15,8 @@ limitations under the License.
  **********************************************************************/
 package net.asfun.jangod.lib.tag;
 
+import static net.asfun.jangod.interpret.JangodInterpreter.SEMI_BLOCK;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,8 @@ import net.asfun.jangod.interpret.JangodInterpreter;
 import net.asfun.jangod.lib.Tag;
 import net.asfun.jangod.tree.Node;
 import net.asfun.jangod.tree.NodeList;
-import net.asfun.jangod.util.ListOrderedMap;
 import net.asfun.jangod.util.HelperStringTokenizer;
+import net.asfun.jangod.util.ListOrderedMap;
 
 /**
  * {% block name %}
@@ -47,7 +49,7 @@ public class BlockTag implements Tag {
 	    throw new InterpretException("Tag 'block' expects 1 helper >>> "
 		    + helper.length);
 	}
-	String blockName = interpreter.resolveString(helper[0]);
+	String blockName = interpreter.evaluateExpressionAsString(helper[0]);
 	// check block name is unique
 	List<String> blockNames = (List<String>) interpreter.fetchRuntimeScope(
 		BLOCKNAMES, 1);
@@ -83,7 +85,7 @@ public class BlockTag implements Tag {
 	    ListOrderedMap blockList = (ListOrderedMap) interpreter
 		    .fetchRuntimeScope(JangodInterpreter.BLOCK_LIST, 1);
 	    blockList.put(blockName, getBlockContent(carries, interpreter));
-	    return JangodInterpreter.SEMI_BLOCK + blockName;
+	    return SEMI_BLOCK + blockName + SEMI_BLOCK;
 	}
 	return getBlockContent(carries, interpreter);
     }

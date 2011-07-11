@@ -44,7 +44,7 @@ public class IfchangedTag implements Tag {
 	boolean isChanged = true;
 	String var = helpers;
 	Object older = interpreter.fetchRuntimeScope(LASTKEY + var);
-	Object test = interpreter.retraceVariable(var);
+	Object test = interpreter.evaluateExpression(var);
 	if (older == null) {
 	    if (test == null) {
 		isChanged = false;

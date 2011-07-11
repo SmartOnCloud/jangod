@@ -34,7 +34,7 @@ public class VariableFilter {
 	} catch (ParseException e) {
 	    throw new InterpretException(e.getMessage());
 	}
-	Object var = interpreter.retraceVariable(fp.getVariable());
+	Object var = interpreter.evaluateExpression(fp.getVariable());
 	List<String> filters = fp.getFilters();
 	if (filters.isEmpty()) {
 	    return var;

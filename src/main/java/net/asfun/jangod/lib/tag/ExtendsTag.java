@@ -44,7 +44,7 @@ public class ExtendsTag implements Tag {
 	    throw new InterpretException("Tag 'extends' expects 1 helper >>> "
 		    + helper.length);
 	}
-	String templateFile = interpreter.resolveString(helper[0]);
+	String templateFile = interpreter.evaluateExpressionAsString(helper[0]);
 	try {
 	    String fullName = ResourceManager.getFullName(templateFile,
 		    interpreter.getWorkspace(), interpreter.getConfiguration()

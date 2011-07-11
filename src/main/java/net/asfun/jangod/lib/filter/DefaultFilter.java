@@ -32,7 +32,7 @@ public class DefaultFilter implements Filter {
 		throw new InterpretException(
 			"filter default expects 1 arg >>> " + arg.length);
 	    }
-	    return interpreter.resolveObject(arg[0]);
+	    return interpreter.evaluateExpression(arg[0]);
 	}
     }
 

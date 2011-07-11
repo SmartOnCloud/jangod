@@ -18,8 +18,12 @@ package net.asfun.jangod.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.expression.BeanFactoryAccessor;
 import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.EvaluationException;
+import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.ParseException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -32,7 +36,6 @@ public class Context {
     protected Map<String, Object> sessionBindings;
     protected Application application;
     private ExpressionParser parser = new SpelExpressionParser();
-    private StandardEvaluationContext context = new StandardEvaluationContext();
 
     public Context() {
 	this(null);
@@ -44,8 +47,6 @@ public class Context {
 	}
 	this.application = application;
 	sessionBindings = new HashMap<String, Object>();
-	context.addPropertyAccessor(new ReflectivePropertyAccessor());
-	context.addPropertyAccessor(new MapAccessor());
     }
 
     public Application getApplication() {
@@ -67,17 +68,27 @@ public class Context {
 	}
     }
 
-    public Object getAttribute(String varName) {
+    public Object getAttribute(String expression) {
+	StandardEvaluationContext context = new StandardEvaluationContext();
+	context.addPropertyAccessor(new ReflectivePropertyAccessor());
+	context.addPropertyAccessor(new BeanFactoryAccessor());
+	context.addPropertyAccessor(new MapAccessor());
+	Expression parseExpression = null;
 	try {
-	    context.setRootObject(sessionBindings);
-	    return parser.parseExpression(varName).getValue(context);
-	} catch (Exception e) {
+	    parseExpression = parser.parseExpression(expression);
+	} catch (ParseException e) {
+	    // ignore parsing problem, might be jangod token
+	    return null;
+	}
+	try {
+	    return parseExpression.getValue(context, sessionBindings);
+	} catch (EvaluationException e) {
 	    // ignore. try global application global bindings
 	}
 	try {
-	    context.setRootObject(application.globalBindings);
-	    return parser.parseExpression(varName).getValue(context);
-	} catch (Exception e) {
+	    return parseExpression
+		    .getValue(context, application.globalBindings);
+	} catch (EvaluationException e) {
 	    return null;
 	}
     }

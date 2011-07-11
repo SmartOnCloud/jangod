@@ -43,7 +43,7 @@ public class IncludeTag implements Tag {
 	    throw new InterpretException("Tag 'include' expects 1 helper >>> "
 		    + helper.length);
 	}
-	String templateFile = interpreter.resolveString(helper[0]);
+	String templateFile = interpreter.evaluateExpressionAsString(helper[0]);
 	try {
 	    String fullName = ResourceManager.getFullName(templateFile,
 		    interpreter.getWorkspace(), interpreter.getConfiguration()

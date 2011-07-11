@@ -30,7 +30,7 @@ public class AndFilter implements Filter {
 	} else {
 	    Object test;
 	    for (String var : arg) {
-		test = interpreter.retraceVariable(var);
+		test = interpreter.evaluateExpression(var);
 		if (!ObjectTruthValue.evaluate(test)) {
 		    return false;
 		}

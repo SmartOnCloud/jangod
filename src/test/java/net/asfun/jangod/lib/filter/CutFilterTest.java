@@ -44,7 +44,7 @@ public class CutFilterTest extends ZzzBase {
     @Test
     public void test2() throws InterpretException {
 	Object obj = compiler.fetchRuntimeScope("var1");
-	Object res = filter.filter(obj, compiler, "a");
+	Object res = filter.filter(obj, compiler, "'a'");
 	assertEquals(".bc,ef\\,g[]*.~^/$bce ", res);
     }
 
@@ -93,14 +93,14 @@ public class CutFilterTest extends ZzzBase {
     @Test
     public void test8() throws InterpretException {
 	Object obj = compiler.fetchRuntimeScope("var4");
-	Object res = filter.filter(obj, compiler, "&");
+	Object res = filter.filter(obj, compiler, "'&'");
 	assertEquals("absp;\"<abc>''adfl'\"\"</abc>gt;amp;", res);
     }
 
     @Test
     public void test10() throws InterpretException {
 	Object obj = compiler.fetchRuntimeScope("var4");
-	Object res = filter.filter(obj, compiler, "'''");
+	Object res = filter.filter(obj, compiler, "\"'\"");
 	assertEquals("&absp;\"<abc>adfl\"\"</abc>&gt;&amp;", res);
     }
 

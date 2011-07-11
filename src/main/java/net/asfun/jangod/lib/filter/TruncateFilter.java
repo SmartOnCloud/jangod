@@ -32,14 +32,14 @@ public class TruncateFilter implements Filter {
 	    String ends = ENDS;
 	    if (arg.length > 0) {
 		try {
-		    length = Integer.valueOf(interpreter.resolveString(arg[0]));
+		    length = Integer.valueOf(interpreter.evaluateExpressionAsString(arg[0]));
 		} catch (Exception e) {
 		    JangodLogger
 			    .warning("filter truncate get length error use default >>> 100");
 		}
 	    }
 	    if (arg.length > 1) {
-		ends = interpreter.resolveString(arg[1]);
+		ends = interpreter.evaluateExpressionAsString(arg[1]);
 	    }
 	    String string = (String) object;
 	    if (string.length() > length) {

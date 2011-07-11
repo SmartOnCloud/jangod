@@ -41,7 +41,7 @@ public class DatetimeFilter implements Filter {
 	if (object instanceof DateTime) { // joda DateTime
 	    DateTimeFormatter formatter;
 	    DateTimeFormatter a = DateTimeFormat.forPattern(interpreter
-		    .resolveString(arg[0]));
+		    .evaluateExpressionAsString(arg[0]));
 	    if (arg.length == 1) {
 		DateTimeFormatter forPattern = a;
 		JodaTimeContext jodaTimeContext = JodaTimeContextHolder
@@ -53,7 +53,7 @@ public class DatetimeFilter implements Filter {
 	    } else if (arg.length == 2) {
 		formatter = a.withChronology(ISOChronology
 			.getInstance(DateTimeZone.forID(interpreter
-				.resolveString(arg[1]))));
+				.evaluateExpressionAsString(arg[1]))));
 	    } else {
 		throw new InterpretException(
 			"filter date expects 1 or 2 args >>> " + arg.length);
@@ -62,12 +62,12 @@ public class DatetimeFilter implements Filter {
 	} else {
 	    SimpleDateFormat sdf;
 	    if (arg.length == 1) {
-		sdf = new SimpleDateFormat(interpreter.resolveString(arg[0]));
+		sdf = new SimpleDateFormat(interpreter.evaluateExpressionAsString(arg[0]));
 		sdf.setTimeZone(interpreter.getConfiguration().getTimezone());
 	    } else if (arg.length == 2) {
-		sdf = new SimpleDateFormat(interpreter.resolveString(arg[0]));
+		sdf = new SimpleDateFormat(interpreter.evaluateExpressionAsString(arg[0]));
 		sdf.setTimeZone(TimeZone.getTimeZone(interpreter
-			.resolveString(arg[1])));
+			.evaluateExpressionAsString(arg[1])));
 	    } else {
 		throw new InterpretException(
 			"filter date expects 1 or 2 args >>> " + arg.length);
