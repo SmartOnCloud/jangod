@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jangod</groupId>
 	<artifactId>jangod</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-spel-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<build>
 		<plugins>
