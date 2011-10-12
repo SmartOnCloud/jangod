@@ -41,11 +41,11 @@ public class JangodViewResolver extends AbstractTemplateViewResolver {
 	JangodView view = (JangodView) super.buildView(viewName);
 	if (isConfigUnset) {
 	    try {
-		String webRoot = WebUtils.getRealPath(getServletContext(), "/");
+		String webRoot = WebUtils.getRealPath(getServletContext(), getPrefix());
 		if (!webRoot.endsWith(File.separator)) {
 		    webRoot += File.separator;
 		}
-		this.jangodConfig.setRoot(webRoot + getPrefix());
+		this.jangodConfig.setRoot(webRoot);
 	    } catch (Exception e) {
 		logger.error("set web root to template engine error.",
 			e.getCause());
