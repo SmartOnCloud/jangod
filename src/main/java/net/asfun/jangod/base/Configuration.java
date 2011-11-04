@@ -67,12 +67,12 @@ public class Configuration implements Cloneable {
 	this.encoding = encoding;
     }
 
-    public void setLocale(Locale locale) {
-	this.locale = locale;
-    }
-
     public String getEncoding() {
 	return encoding;
+    }
+
+    public void setLocale(Locale locale) {
+	this.locale = locale;
     }
 
     public Locale getLocale() {

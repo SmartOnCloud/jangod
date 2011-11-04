@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jangod</groupId>
 	<artifactId>jangod</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-spel-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<build>
 		<plugins>
@@ -25,6 +25,7 @@
 			</extension>
 		</extensions>
 	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -32,7 +33,6 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -42,20 +42,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>3.0.5.RELEASE</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>3.0.5.RELEASE</version>
-			<optional>true</optional>
+			<version>3.0.6.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>1.6.2</version>
-			<optional>true</optional>
+			<version>2.0</version>
 		</dependency>
 	</dependencies>
 

@@ -41,7 +41,7 @@ public class VariableNode extends Node {
     public String render(JangodInterpreter interpreter)
 	    throws InterpretException {
 	interpreter.setLevel(level);
-	Object var = interpreter.retraceVariable(master.getVariable());
+	Object var = interpreter.evaluateExpression(master.getVariable());
 	// filters
 	List<String> filters = master.getFilters();
 	if (filters.isEmpty()) {

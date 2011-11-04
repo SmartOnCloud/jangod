@@ -30,7 +30,7 @@ import net.asfun.jangod.lib.Importable;
 
 public class ConfigInitializer {
 
-    final static String AUTOCONFIG_FILE = "jangod.config.properties";
+    final static String AUTOCONFIG_FILE = "config/jangod.config.properties";
     final static String CONFIG_FILE_PROPERTY = "jangod.configurationFile";
 
     private static URL findConfigFile(String configurationFile) {

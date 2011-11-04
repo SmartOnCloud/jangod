@@ -69,8 +69,9 @@ public class Processor {
 	} else {
 	    context.initBindings(bindings, Context.SCOPE_SESSION);
 	}
-	String fullName = ResourceManager.getFullName(templateFile, application
-		.getConfiguration().getWorkspace());
+//	String fullName = ResourceManager.getFullName(templateFile, application
+//		.getConfiguration().getWorkspace());
+	String fullName = templateFile;
 	interpreter.setFile(fullName);
 	try {
 	    interpreter.init(locale);

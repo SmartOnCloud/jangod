@@ -32,7 +32,7 @@ public class DivisibleFilter implements Filter {
 		throw new InterpretException(
 			"filter divisible expects 1 arg >>> " + arg.length);
 	    }
-	    long factor = Long.valueOf(interpreter.resolveString(arg[0]));
+	    long factor = Long.valueOf(interpreter.evaluateExpressionAsString(arg[0]));
 	    long value = ((Number) object).longValue();
 	    if (value % factor == 0) {
 		return true;

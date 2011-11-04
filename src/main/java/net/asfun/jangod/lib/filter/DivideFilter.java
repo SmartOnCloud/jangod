@@ -31,7 +31,7 @@ public class DivideFilter implements Filter {
 	    throw new InterpretException("filter multiply expects 1 arg >>> "
 		    + arg.length);
 	}
-	Object toMul = interpreter.resolveObject(arg[0]);
+	Object toMul = interpreter.evaluateExpression(arg[0]);
 	Number num;
 	if (toMul instanceof String) {
 	    num = new BigDecimal(toMul.toString());

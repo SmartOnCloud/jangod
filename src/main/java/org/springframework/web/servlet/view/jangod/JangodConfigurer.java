@@ -21,6 +21,7 @@ import net.asfun.jangod.template.TemplateEngine;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.MessageSource;
 
+@Deprecated
 public class JangodConfigurer implements JangodConfig, InitializingBean {
 
     boolean useTheme = false;

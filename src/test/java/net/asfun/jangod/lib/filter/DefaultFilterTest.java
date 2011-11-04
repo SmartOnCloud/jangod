@@ -57,6 +57,7 @@ public class DefaultFilterTest extends ZzzBase {
     @Test
     public void test3() throws InterpretException {
 	Object obj = compiler.fetchRuntimeScope("var4");
+	compiler.assignRuntimeScope("a", "a");
 	Object res = filter.filter(obj, compiler, "a");
 	assertEquals("a", res);
     }

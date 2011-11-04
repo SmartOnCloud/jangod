@@ -18,6 +18,16 @@ package net.asfun.jangod.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.expression.BeanFactoryAccessor;
+import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.EvaluationException;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.ParseException;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
 public class Context {
 
     public static final int SCOPE_GLOBAL = 1;
@@ -25,10 +35,10 @@ public class Context {
 
     protected Map<String, Object> sessionBindings;
     protected Application application;
+    private ExpressionParser parser = new SpelExpressionParser();
 
     public Context() {
-	application = new Application();
-	sessionBindings = new HashMap<String, Object>();
+	this(null);
     }
 
     public Context(Application application) {
@@ -58,13 +68,29 @@ public class Context {
 	}
     }
 
-    public Object getAttribute(String varName) {
-	if (sessionBindings.containsKey(varName)) {
-	    return sessionBindings.get(varName);
-	} else if (application.globalBindings.containsKey(varName)) {
-	    return application.globalBindings.get(varName);
+    public Object getAttribute(String expression) {
+	StandardEvaluationContext context = new StandardEvaluationContext();
+	context.addPropertyAccessor(new ReflectivePropertyAccessor());
+	context.addPropertyAccessor(new BeanFactoryAccessor());
+	context.addPropertyAccessor(new MapAccessor());
+	Expression parseExpression = null;
+	try {
+	    parseExpression = parser.parseExpression(expression);
+	} catch (ParseException e) {
+	    // ignore parsing problem, might be jangod token
+	    return null;
 	}
-	return null;
+	try {
+	    return parseExpression.getValue(context, sessionBindings);
+	} catch (EvaluationException e) {
+	    // ignore. try global application global bindings
+	}
+	try {
+	    return parseExpression
+		    .getValue(context, application.globalBindings);
+	} catch (EvaluationException e) {
+	    return null;
+	}
     }
 
     public void setAttribute(String varName, Object value, int scope) {

@@ -36,7 +36,7 @@ public class EqualFilter implements Filter {
 		|| arg[0].startsWith(Constants.STR_DOUBLE_QUOTE)) {
 	    argObj = arg[0].substring(1, arg[0].length() - 1);
 	} else {
-	    argObj = interpreter.retraceVariable(arg[0]);
+	    argObj = interpreter.evaluateExpression(arg[0]);
 	    if (isNull = argObj == null) {
 		argObj = arg[0];
 	    }

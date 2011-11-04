@@ -15,33 +15,26 @@ limitations under the License.
  **********************************************************************/
 package net.asfun.jangod.interpret;
 
+import static net.asfun.jangod.util.logging.JangodLogger;
+
 import java.util.List;
 
-import net.asfun.jangod.base.Constants;
 import net.asfun.jangod.lib.Filter;
 import net.asfun.jangod.lib.FilterLibrary;
 import net.asfun.jangod.parse.FilterParser;
 import net.asfun.jangod.parse.ParseException;
 
-import static net.asfun.jangod.util.logging.JangodLogger;
-
 public class VariableFilter {
 
     public static Object compute(String varString, JangodInterpreter interpreter)
 	    throws InterpretException {
-	if ((varString.startsWith(Constants.STR_SINGLE_QUOTE) && varString
-		.endsWith(Constants.STR_SINGLE_QUOTE))
-		|| (varString.startsWith(Constants.STR_DOUBLE_QUOTE) && varString
-			.endsWith(Constants.STR_DOUBLE_QUOTE))) {
-	    return varString.substring(1, varString.length() - 1);
-	}
 	FilterParser fp = new FilterParser(varString);
 	try {
 	    fp.parse();
 	} catch (ParseException e) {
 	    throw new InterpretException(e.getMessage());
 	}
-	Object var = interpreter.retraceVariable(fp.getVariable());
+	Object var = interpreter.evaluateExpression(fp.getVariable());
 	List<String> filters = fp.getFilters();
 	if (filters.isEmpty()) {
 	    return var;

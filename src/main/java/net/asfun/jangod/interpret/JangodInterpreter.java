@@ -31,7 +31,6 @@ import net.asfun.jangod.tree.Node;
 import net.asfun.jangod.tree.TreeParser;
 import net.asfun.jangod.util.ListOrderedMap;
 import net.asfun.jangod.util.ListOrderedMap.Item;
-import net.asfun.jangod.util.Variable;
 
 public class JangodInterpreter implements Cloneable {
 
@@ -99,7 +98,7 @@ public class JangodInterpreter implements Cloneable {
 	    Item item;
 	    while (mi.hasNext()) {
 		item = mi.next();
-		replace = SEMI_BLOCK + item.getKey();
+		replace = SEMI_BLOCK + item.getKey() + SEMI_BLOCK;
 		while ((index = sb.indexOf(replace)) > 0) {
 		    sb.delete(index, index + replace.length());
 		    sb.insert(index, item.getValue());
@@ -110,73 +109,27 @@ public class JangodInterpreter implements Cloneable {
 	return buff.toString();
     }
 
-    public Object retraceVariable(String variable) {
-	if (variable == null || variable.trim().length() == 0) {
+    public Object evaluateExpression(String expr) {
+	if (expr == null || expr.trim().length() == 0) {
 	    JangodLogger.severe("variable name is required.");
 	    return Constants.STR_BLANK;
 	}
-	Variable var = new Variable(variable);
-	String varName = var.getName();
 	// find from runtime(tree scope) > engine > global
-	Object obj = runtime.get(varName, level);
+	Object obj = runtime.get(expr, level);
 	int lvl = level;
 	while (obj == null && lvl > 1) {
-	    obj = runtime.get(varName, --lvl);
+	    obj = runtime.get(expr, --lvl);
 	}
 	if (obj == null) {
-	    obj = context.getAttribute(varName);
+	    obj = context.getAttribute(expr);
 	}
-	if (obj == null) {
-	    if (VAR_DATE.equals(variable)) {
-		return new java.util.Date();
-	    }
-	    if (VAR_PATH.equals(variable)) {
-		return getWorkspace();
-	    }
-	}
-	if (obj != null) {
-	    obj = var.resolve(obj);
-	    if (obj == null) {
-		JangodLogger.fine(varName + " can't resolve member >>> "
-			+ variable);
-	    }
-	} else {
-	    JangodLogger.finer(variable + " can't resolve variable >>> "
-		    + varName);
-	}
+	JangodLogger.finer(expr + " can't resolve variable >>> " + expr);
 	return obj;
     }
 
-    public String resolveString(String variable) {
-	if (variable == null || variable.trim().length() == 0) {
-	    JangodLogger.severe("variable name is required.");
-	    return Constants.STR_BLANK;
-	}
-	if (variable.startsWith(Constants.STR_DOUBLE_QUOTE)
-		|| variable.startsWith(Constants.STR_SINGLE_QUOTE)) {
-	    return variable.substring(1, variable.length() - 1);
-	} else {
-	    Object val = retraceVariable(variable);
-	    if (val == null)
-		return variable;
-	    return val.toString();
-	}
-    }
-
-    public Object resolveObject(String variable) {
-	if (variable == null || variable.trim().length() == 0) {
-	    JangodLogger.severe("variable name is required.");
-	    return Constants.STR_BLANK;
-	}
-	if (variable.startsWith(Constants.STR_DOUBLE_QUOTE)
-		|| variable.startsWith(Constants.STR_SINGLE_QUOTE)) {
-	    return variable.substring(1, variable.length() - 1);
-	} else {
-	    Object val = retraceVariable(variable);
-	    if (val == null)
-		return variable;
-	    return val;
-	}
+    public String evaluateExpressionAsString(String exp) {
+	Object res = evaluateExpression(exp);
+	return res == null ? exp : String.valueOf(res);
     }
 
     /**
@@ -236,4 +189,5 @@ public class JangodInterpreter implements Cloneable {
     public Locale getLocale() {
 	return locale;
     }
+
 }

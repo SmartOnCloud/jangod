@@ -31,7 +31,7 @@ public class AddFilter implements Filter {
 	    throw new InterpretException("filter add expects 1 arg >>> "
 		    + arg.length);
 	}
-	Object toAdd = interpreter.resolveObject(arg[0]);
+	Object toAdd = interpreter.evaluateExpressionAsString(arg[0]);
 	Number num;
 	if (toAdd instanceof String) {
 	    try {

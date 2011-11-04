@@ -30,7 +30,7 @@ public class CutFilter implements Filter {
 	    throw new InterpretException("filter cut expects 1 arg >>> "
 		    + arg.length);
 	}
-	String cutee = interpreter.resolveString(arg[0]);
+	String cutee = interpreter.evaluateExpressionAsString(arg[0]);
 	String origin = ObjectValue.printable(object);
 	return origin.replace(cutee, Constants.STR_BLANK);
     }

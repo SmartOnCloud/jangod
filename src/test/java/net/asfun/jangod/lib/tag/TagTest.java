@@ -160,7 +160,7 @@ public class TagTest {
 
     @Test
     public void ifTag2() throws ScriptException {
-	script = "{%if var2|equal:45 %}hello{%else%}world{%endif%}";
+	script = "{%if var2|equal:'45' %}hello{%else%}world{%endif%}";
 	res = engine.eval(script);
 	assertEquals("hello", res);
     }
