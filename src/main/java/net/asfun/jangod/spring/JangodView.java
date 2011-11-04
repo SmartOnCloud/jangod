@@ -1,4 +1,4 @@
-package org.springframework.web.servlet.view.jangod;
+package net.asfun.jangod.spring;
 
 import java.util.Locale;
 import java.util.Map;
