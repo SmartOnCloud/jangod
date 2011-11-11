@@ -55,7 +55,7 @@
 		<repository>
 			<id>JANGOD_REPO</id>
 			<name>Jangod repository</name>
-			<url>dav:https://qcode.cloudfoundry.com/s/jangod/maven/</url>
+			<url>dav:https://r.tasktop.com/s/jangod/maven/</url>
 		</repository>
 	</distributionManagement>
 </project>
